@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.FbImageSQLMapper">
+	
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_FB_Image VALUES(
+			WTE_FB_Image_seq.nextval,
+		    #{fb_no},
+		    #{fbimage_link}
+		)	
+	]]>	
+	</insert>
+
+	<select id="selectByContentNo" resultType="com.dj.wte.board.vo.FbImageVo">
+	<![CDATA[
+		SELECT * FROM WTE_FB_Image WHERE fb_no = #{fb_no}	
+	]]>	
+	</select>
+
+
+</mapper>
+
+
+
+
+
+
+

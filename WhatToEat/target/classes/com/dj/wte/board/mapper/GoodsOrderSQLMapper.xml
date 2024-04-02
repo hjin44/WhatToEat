@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.GoodsOrderSQLMapper">
+	
+	<!-- 주문 번호 증가  -->
+	<select id="createKey" resultType="int">
+	<![CDATA[
+		SELECT WTE_Goods_Order_seq.nextval FROM Dual
+	]]>
+	</select>
+	
+	<!-- 주문  -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Goods_Order VALUES(
+		#{order_no},
+		#{goods_no},
+		#{member_no},
+		#{receiver_phone},
+		#{receiver_name},
+		#{receiver_address1},
+		#{receiver_address2},
+		#{receiver_address3},
+		#{order_amount},
+		#{order_price},
+		SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<!-- 주문 내역 출력(주문완료 페이지)  -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.GoodsOrderVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods_Order
+		WHERE order_no = #{order_no}
+	]]>
+	</select>
+	
+	<!-- 주문 내역 출력(구매내역 페이지) -->
+	<select id="selectAllByNo" resultType="com.dj.wte.board.vo.GoodsOrderVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods_Order
+		WHERE member_no = #{member_no}
+	]]>
+	</select>
+	
+	<!-- 특정 회원 총 주문금액 출력 -->
+	<select id="getTotalPriceByNo" resultType="Integer">
+	<![CDATA[
+		SELECT SUM(order_price) FROM WTE_Goods_Order
+		WHERE member_no = #{member_no}
+	]]>
+	</select>
+	
+	<!-- 해당 상품 판매수량 출력 -->
+	<select id="getOrderAmountByNo" resultType="Integer">
+	<![CDATA[
+		SELECT SUM(order_amount) FROM WTE_Goods_Order
+		WHERE goods_no = #{goods_no}
+	]]>
+	</select>
+	
+</mapper>

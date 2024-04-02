@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.member.mapper.AddressSQLMapper">
+
+	<!-- 주소록 폴더 생성 -->
+	<insert id="insertAddressFolder">
+	<![CDATA[
+		INSERT INTO WTE_Address_Folder VALUES(
+		    WTE_Address_Folder_seq.nextval,
+		    #{member_no},
+		    #{address_folder_name}
+		)
+	]]>
+	</insert>
+	
+	<!-- 주소록 추가 -->
+	<insert id="insertAddress">
+	<![CDATA[
+		INSERT INTO WTE_Address VALUES(
+		    WTE_Address_seq.nextval,
+		    #{address_folder_no},
+		    #{member_no}
+		)
+	]]>
+	</insert>
+	
+	<!-- 주소록 폴더 가져오기 -->
+	<select id="selectByMemberNo" resultType="com.dj.wte.member.vo.AddressFolderVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Address_Folder 
+		WHERE member_no = #{member_no}
+		ORDER BY address_folder_no
+	]]>
+	</select>
+	
+	<!-- 주소록 폴더 정보 가져오기 -->
+	<select id="selectByNo" resultType="com.dj.wte.member.vo.AddressFolderVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Address_Folder 
+		WHERE address_folder_no = #{address_folder_no}
+	]]>
+	</select>
+	
+	<!-- 폴더별 주소록 가져오기 -->
+	<select id="selectByFolderNo" resultType="com.dj.wte.member.vo.AddressVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Address 
+		WHERE address_folder_no = #{address_folder_no}
+		ORDER BY address_no
+	]]>
+	</select>
+	
+	<!-- 주소록 폴더 이름 변경 -->
+	<update id="updateFolderName">
+	<![CDATA[
+		UPDATE WTE_Address_Folder
+		SET address_folder_name = #{address_folder_name}
+		WHERE address_folder_no = #{address_folder_no}
+	]]>
+	</update>
+	
+	<!-- 폴더 변경 -->
+	<update id="updateFolder">
+	<![CDATA[
+		UPDATE WTE_Address
+		SET address_folder_no = #{address_folder_no}
+		WHERE address_no = #{address_no}
+	]]>	
+	</update>
+	
+	<!-- 주소록 폴더+주소록 삭제 -->
+	<delete id="deleteAddressFolder">
+	<![CDATA[
+		DELETE FROM WTE_Address_Folder WHERE address_folder_no = #{address_folder_no}
+	]]>
+	</delete>
+	
+	<delete id="deleteAddressByFolderNo">
+	<![CDATA[
+		DELETE FROM WTE_Address WHERE address_folder_no = #{address_folder_no}
+	]]>
+	</delete>
+	
+	<!-- 주소록 폴더만 삭제 -->
+	<update id="updateAddressByFolderNo">
+	<![CDATA[
+		UPDATE WTE_Address 
+		SET address_folder_no = (SELECT MIN(address_folder_no) FROM WTE_Address_Folder WHERE member_no = #{member_no}) 
+		WHERE address_folder_no = #{address_folder_no}
+	]]>
+	</update>
+	
+	<!-- 주소록 삭제 -->
+	<delete id="deleteAddress">
+	<![CDATA[
+		DELETE FROM WTE_Address WHERE address_no = #{address_no}
+	]]>
+	</delete>
+	
+	<!-- 친구 추가 유효성 검사 -->
+	<select id="selectMyFolder" resultType="com.dj.wte.member.vo.AddressVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Address 
+		WHERE address_folder_no IN (
+		  SELECT address_folder_no 
+		    FROM WTE_Address_Folder 
+		    WHERE member_no = #{member_no}  
+		)
+	]]>
+	</select>
+	
+	<!-- 현진 추가 주소록번호 검색 -->
+	<select id="selectMinByMemberNo" resultType="int">
+	<![CDATA[
+		SELECT min(address_folder_no) 
+		FROM WTE_Address_Folder 
+		WHERE member_no = #{login_member}
+	]]>
+	</select>
+
+	<!-- 현진 추가 이미 친구야? -->
+	<select id="selectOfFriend" resultType="int">
+	<![CDATA[
+		SELECT count(*) FROM WTE_Address_Folder f,WTE_Address a
+		WHERE f.member_no = #{login_member}
+		and a.member_no = #{member_no}
+	]]>
+	</select>
+
+</mapper>

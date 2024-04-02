@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.board.mapper.PostscriptSQLMapper">
+
+	<select id="createKey_postscript" resultType="int">
+	<![CDATA[
+		SELECT WTE_Postscript_seq.nextval FROM Dual	
+	]]>
+	</select>
+
+
+	<!-- 후기 작성 -->
+	<insert id="insert_Postscript">
+	<![CDATA[
+		INSERT INTO WTE_Postscript VALUES(
+			#{postscript_no},
+			#{member_no},
+			#{recipe_no},
+			#{postscript_content},
+			SYSDATE)
+	]]>
+	</insert>	
+	
+	
+	<!-- 후기 전체글 보기 -->
+	<select id="select_All_Postscript" resultType="com.dj.wte.board.vo.PostscriptVo">
+	<![CDATA[
+		SELECT * FROM WTE_Postscript
+	]]>	
+	</select>
+	
+	
+	<!-- 레시피별 후기 글 보기 -->
+	<select id="select_Postscript_by_recipe_no" resultType="com.dj.wte.board.vo.PostscriptVo">
+	<![CDATA[
+		SELECT * FROM WTE_Postscript WHERE recipe_no = #{recipe_no}
+	]]>	
+	</select>
+	
+	<!-- 후기 삭제 -->
+	<delete id="delete_Postscript" >
+	<![CDATA[
+		DELETE FROM WTE_Postscript WHERE postscript_no = #{postscript_no}
+	]]>
+	</delete>	
+
+</mapper>

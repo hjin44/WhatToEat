@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.GoodsImageSQLMapper">
+	
+	<!-- 이미지 첨부  -->
+	<insert id="insert">
+	<![CDATA[ 
+		INSERT INTO WTE_Goods_Image VALUES(
+		WTE_Goods_Image_seq.nextval,
+		#{goods_no},
+		#{goods_image_link}
+		)
+	]]>
+	</insert>
+	
+	<!-- 이미지 출력  -->
+	<select id="selectByGoodsNo" resultType="com.dj.wte.board.vo.GoodsImageVo">
+	<![CDATA[ 
+		SELECT * FROM WTE_Goods_Image WHERE goods_no = #{goods_no}
+	]]>
+	</select>
+	
+	<!-- 대표 이미지 출력 -->
+	<select id="selectByGoodsOne" resultType="com.dj.wte.board.vo.GoodsImageVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods_Image WHERE goods_no = #{goods_no}
+		AND ROWNUM = 1
+	]]>
+	</select>
+	
+	<!-- 글 삭제시 이미지 자동 삭제 -->
+	<delete id="chainDeleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Goods_Image WHERE goods_no = #{goods_no}
+	]]>
+	</delete>
+	
+</mapper>

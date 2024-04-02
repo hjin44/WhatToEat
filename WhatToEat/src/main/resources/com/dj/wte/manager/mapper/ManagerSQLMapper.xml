@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.manager.mapper.ManagerSQLMapper">
+
+	<select id="selectIdAndPw" resultType="com.dj.wte.manager.vo.ManagerVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Manager 
+		WHERE manager_id = #{manager_id} 
+		AND manager_pw = #{manager_pw}
+	]]>
+	</select>
+	
+	<select id="selectByNo" resultType="com.dj.wte.manager.vo.ManagerVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Manager 
+		WHERE manager_no = #{manager_no} 
+	]]>
+	</select>	
+	
+	<select id="selectManager" resultType="com.dj.wte.manager.vo.ManagerVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Manager 
+	]]>
+	</select>
+</mapper>

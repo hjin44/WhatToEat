@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.GoodsBasketSQLMapper">
+	
+	<!-- 장바구니 추가  -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Goods_Basket VALUES(
+		WTE_Goods_Basket_seq.nextval,
+		#{member_no},
+		#{goods_no},
+		#{basket_amount}
+		)
+	]]>
+	</insert>
+	
+	<!-- 장바구니 목록  -->
+	<select id="selectAll" resultType="com.dj.wte.board.vo.GoodsBasketVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods_Basket
+		WHERE member_no = #{member_no}
+	]]>
+	</select>
+	
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.GoodsBasketVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods_Basket
+		WHERE basket_no = #{basket_no}
+	]]>
+	</select>
+	
+	<!-- 장바구니 삭제  -->
+	<delete id="deleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Goods_Basket
+		WHERE basket_no = #{basket_no}
+		AND member_no = #{member_no}
+	]]>
+	</delete>
+	
+	<!-- 연쇄삭제 -->
+	<delete id="chainDeleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Goods_Basket
+		WHERE goods_no = #{goods_no}
+	]]>
+	</delete>
+	
+</mapper>

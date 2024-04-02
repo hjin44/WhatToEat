@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.manager.mapper.KeepSQLMapper">
+<!-- 현정6 이미지링크 지움 테이블 바꿔야해-->
+	<!-- 글 쓰기 쿼리 -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Keep VALUES(
+	    WTE_Keep_seq.nextval,
+	    #{subgroup_no},
+	    #{keep_content}
+		)
+	]]>
+	</insert>
+
+	<!-- 글 리스트 쿼리 : 다 뽑아오기 -->
+	<select id="selectAll" resultType="com.dj.wte.manager.vo.KeepVo">
+		<![CDATA[
+			SELECT * FROM WTE_Keep
+			ORDER BY keep_no DESC
+		]]>
+	</select>
+	
+	<select id="selectBySubGroupNo" resultType="com.dj.wte.manager.vo.KeepVo">
+		<![CDATA[
+			SELECT * FROM WTE_Keep
+			WHERE subgroup_no = #{subgroup_no}
+		]]>
+	</select>
+	
+	<!-- 글 보기 쿼리 -->
+	<select id="selectByKeepNo" resultType="com.dj.wte.manager.vo.KeepVo">
+	<![CDATA[
+		SELECT * FROM WTE_Keep WHERE keep_no = #{keep_no}
+	]]>
+	</select>
+	
+	<!-- 글 수정 쿼리 -->
+	<update id="update">
+	<![CDATA[
+		UPDATE WTE_Keep 
+		SET keep_content = #{keep_content}
+		WHERE keep_no = #{keep_no}
+	]]>
+	</update>
+	
+	<!-- 글 삭제 쿼리 -->
+	<delete id="deleteByKeepNo">
+	<![CDATA[
+		DELETE FROM WTE_Keep WHERE keep_no = #{keep_no} 
+	]]>
+	</delete>
+	
+	<!-- 재료 이름 검색 쿼리 -->
+	<select id="selectBySubName" resultType="com.dj.wte.board.vo.SubgroupVo">
+	<![CDATA[
+		SELECT * FROM WTE_Subgroup WHERE subgroup_name = #{subgroup_name}
+	]]>
+	</select>
+</mapper>

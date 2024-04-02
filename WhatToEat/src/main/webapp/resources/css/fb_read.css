@@ -1,0 +1,376 @@
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  text-decoration: none;
+  border-collapse: collapse;
+  list-style: none;
+}
+
+/* 자유게시판 */
+.fb__header  {
+  position: relative;
+  top: -45px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1130px;
+  margin: auto;
+  border-radius: 20px; 
+}
+
+
+
+.fb__header > li {
+  flex: 1;
+  height: 80px;
+  
+
+}
+.fb__header > li > div {
+  text-align: center;
+  background-color: #fff;
+  margin-top: 20px;
+  height: 45px;
+}
+.fb__header > li:not(:last-child) > div {
+  border-right: 1px solid gray;
+  
+}
+
+.fb__font1 {
+  font-size: 30px;
+  font-weight: bolder;
+}
+.fb__font2 {
+  font-size: 16px;
+  font-weight: lighter;
+  padding-top: 10px;
+}
+.fb__font2 > i {
+  color: red;
+  
+}
+.fbgood_btn{
+  
+  width: 150px;
+  height: 300px;
+  position: absolute;
+  right: 30px;
+  top: 300px;
+  color: #fff;
+  text-align: center;
+  line-height: 100px;
+  font-weight: bold;
+  font-size: 1.2em;
+	
+}
+
+
+/* 글보기*/
+.read_title {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 45px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  font-weight: bolder;
+  font-size: 20px;
+  text-shadow: 3px 3px 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 2px gray rgba(0, 0, 0, 0.1);
+  border-top: solid 2px gray rgba(0, 0, 0, 0.1);
+}
+
+.read_title > li {
+  flex: 1;
+  margin: auto;
+}
+.read_title > li > div {
+  text-align: center;
+}
+
+.read_body {
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color: #dcdcdc;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.read_body > li {
+  flex: 1;
+  margin: auto;
+}
+.read_body > li > div {
+  text-align: center;
+}
+
+.read__category {
+}
+.read__name {
+}
+
+.read_date {
+}
+.read__click {
+}
+.read__good {
+}
+
+.read_body1 {
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+ 
+}
+.read_body1 > li {
+  flex: 1;
+  margin: auto;
+}
+.read_body1 > li > div {
+  text-align: center;
+}
+
+.read_no {
+}
+.read_delete {
+  text-align: right;
+  padding-right: 20px;
+  
+}
+
+.read_delete1 {
+  color: black;
+  text-decoration: none;
+}
+.read_delete1:hover {
+  color: black;
+  font-weight: bolder;
+  }
+
+.read_body2 {
+  
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+ min-height:200px;
+  height:auto;
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+.read_body2 > li {
+	
+  flex: 1;
+  margin: auto;
+}
+.read_body2 > li > div {
+  text-align: center;
+}
+.read_write {
+  word-break: break-all;
+  text-align: left;
+  padding: 20px 20px 20px;
+}
+.read_camera {
+	
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color: #dcdcdc;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  height: auto;
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+
+}
+.read_camera > li {
+  flex: 1;
+  margin: auto;
+  
+}
+.read_camera > li > div {
+  text-align: center;
+  
+}
+.read_camera1 {
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height:auto;
+ 
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+ 
+
+}
+.read_camera1 > li {
+  flex: 1;
+  
+  margin: auto;
+}
+.read_camera1 > li > div {
+  text-align: center;
+}
+.read_camera2 {
+  padding-left: 20px;
+  text-align: left;
+   border-radius: 5px ;
+   
+}
+
+
+
+
+.read_good {
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 2px gray rgba(0, 0, 0, 0.2);
+  
+}
+.read_good > li {
+  flex: 1;
+  margin: auto;
+}
+.read_good > li > div {
+  text-align: center;
+}
+
+
+
+
+.read_reple {
+	 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	width: 1000px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+   
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+ 
+}
+.read_reple > li {
+  flex: 1;
+  margin: auto;
+}
+.read_reple > li > div {
+  text-align: center;
+}
+.read_reple1 {
+  padding-left: 20px;
+  text-align: left;
+  color:red;
+}
+
+.read_nick {
+	border-radius: 5px ;
+	text-align: left;
+	font-size:13px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  background-color:#dcdcdc;
+   box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+  
+}
+.read_nick > li {
+  flex: 1;
+  margin: auto;
+}
+.read_nick > li > div {
+	padding-left:20px;
+  text-align: left;
+  border-radius: 5px ; 
+}
+
+.read_content {
+	
+  height: auto;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+.read_content > li {
+  flex: 1;
+  margin: auto;
+  
+}
+.read_content > li > div {
+  text-align: center;
+  
+}
+.read_content1 {
+	
+	word-break: break-all;
+  padding-left: 20px;
+  text-align: left;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.read_replewrite {
+  height: 100px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+.read_replewrite > li {
+  flex: 1;
+  margin: auto;
+}
+.read_replewrite > li > div {
+  text-align: center;
+}
+ .read_replewrite1{
+ 
+ } 
+ .read_replewrite2{
+ 	height: 80px;
+ }
+ .read_replewrite2 > textarea{
+ 	height: 80px;
+ 	
+   
+ }
+
+.read_replewrite3 > input{
+	height: 80px;
+	width: 127px;
+ }
+

@@ -1,0 +1,15 @@
+
+.topbg {
+	position: relative;
+	left:0;
+	bottom:0;
+	right:0;
+	height: 720px;
+  display: flex;
+  background: url("../image_workspace/wtebg.png");
+  background-size: cover;
+  z-index: -1;
+  margin:auto;
+}
+
+

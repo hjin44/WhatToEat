@@ -1,0 +1,458 @@
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  text-decoration: none;
+  border-collapse: collapse;
+  list-style: none;
+}
+
+.topbg {
+  min-height: 100%;
+  padding: 0;
+  height: 385px;
+  z-index: 1;
+  background-size: cover;	
+}
+
+.topbg::before {
+  background-size: cover;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 10%,
+      rgba(255, 255, 255, 0.7) 80%,
+      rgba(255, 255, 255, 1) 100%
+    ),
+    url("../image_workspace/wtebg1.png");
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* 미디어 햄버거
+.navbar__toogleBtn {
+  display: none;
+  position: absolute;
+  right: 32px;
+  font-size: 24px;
+  color: var(--accent-color);
+} */
+
+/* 자유게시판 */
+.fb__header  {
+  position: relative;
+  top: -45px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1130px;
+  margin: auto;
+  border-radius: 20px; 
+  text-align: center;
+}
+
+
+
+.fb__header > li {
+  flex: 1;
+  height: 80px;
+  
+
+}
+.fb__header > li > div {
+  text-align: center;
+  background-color: #fff;
+  margin-top: 20px;
+  height: 45px;
+}
+.fb__header > li:not(:last-child) > div {
+  border-right: 1px solid gray;
+  
+}
+
+.fb__font1 {
+  font-size: 30px;
+  font-weight: bolder;
+}
+.fb__font2 {
+  font-size: 16px;
+  font-weight: lighter;
+  padding-top: 10px;
+}
+.fb__font2 > i {
+  color: red;
+}
+
+.fb__body {
+  justify-content: flex-end;
+  display: flex;
+  width: 1350px;
+  padding-right: 0px;
+  }
+
+
+.fb__search {
+  position: relative;
+   text-align: right;
+  margin-right: 5px;
+}
+
+.scontrol {
+	 position: relative;
+  right: -50px;
+  height: 27px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.fb_search0 {
+	padding-bottom: 40px
+
+}
+
+.fb_search2 {
+	padding-bottom: 40px
+}
+
+.fb_search1 {
+	
+  
+  border: solid 1px black;
+  padding-left: 0;
+  border-radius: 5px;
+  
+}
+.fb_search1 > input {
+  width: 270px;
+  border: none;
+  position: relative;
+  right: -50px;
+  text-align: left;
+  color: black;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
+.fb_search1 > span {
+  position: relative;
+  right: -50px;
+  width: 30px;
+  color: black;
+  cursor: pointer;
+
+  text-align: left;
+ 
+}
+	
+
+.fb__body1 {
+  height: 45px;
+  padding: 0;
+  display: flex;
+  background-color: gray;
+  font-weight: bolder;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1280px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.fb__body1 > li {
+  flex: 1;
+  margin: auto;
+  font-size:20px;
+}
+.fb__body1 > li > div {
+  text-align: center;
+}
+
+.fb__body2 {
+  height: 50px;
+  padding: 0;
+  display: flex;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1280px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+  
+}
+
+.fb__body2 > li {
+  flex: 1;
+  margin: auto;
+}
+.fb__body2 > li > div {
+  text-align: center;
+}
+
+.fb__title {
+  
+  width: 400px;
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+ 	
+}
+.fb__title > a{
+	
+
+ text-decoration: none;
+  color:black;
+  
+	
+}
+
+		
+.fb__name {
+  width: 147px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* 페이지넘기기 */
+
+.fb__navi {
+	position: relative;
+	padding-bottom: 10px;
+    padding-top: 10px;
+    right: -160px;
+    display: flex;
+    width: 1190px;
+    margin: auto;
+    justify-content: space-evenly;
+}
+
+.page_wrap {
+  text-align: center;
+  font-size: 0;
+}
+
+.page_nation {
+  display: inline-block;
+  
+}
+
+.page_nation > a {
+  display: block;
+  margin: 0 3px;
+  float: left;
+  border: 1px solid #e6e6e6;
+  width: 28px;
+  height: 34px;
+  line-height: 28px;
+  text-align: center;
+  background-color: #fff;
+  font-size: 13px;
+  color: #999999;
+  text-decoration: none;
+}
+
+.page_nation .arrow {
+  border: 1px solid #ccc;
+}
+.page_nation .pprev {
+  background: #f8f8f8 url("../image_workspace/page_pprev.png") no-repeat center center;
+  margin-left: 0;
+}
+.page_nation .prev {
+  background: #f8f8f8 url("../image_workspace/page_prev.png") no-repeat center center;
+  margin-right: 7px;
+}
+.page_nation .next {
+  background: #f8f8f8 url("../image_workspace/page_next.png") no-repeat center center;
+  margin-left: 7px;
+}
+.page_nation .nnext {
+  background: #f8f8f8 url("../image_workspace/page_nnext.png") no-repeat center center;
+  margin-right: 0;
+}
+.page_nation a.active {
+  background-color: #42454c;
+  color: #fff;
+  border: 1px solid #42454c;
+}
+
+.fb__writebtn {
+	
+  text-decoration: none;
+  color:black;
+  cursor: pointer;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.fb__write {
+  display: flex;
+  padding-left: 0;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.fb__write a:hover {
+  color: black;
+  font-weight: bolder;
+  -webkit-transform: scale(1.3, 1.3);
+  -moz-transform: scale(1.3, 1.3);
+  -o-transform: scale(1.3, 1.3);
+  -ms-transform: scale(1.3, 1.3);
+  transform:scale(1.3, 1.3);
+}
+
+.finalBox {
+	width: 1130px;
+	background-color: white;
+	border-radius: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.nickTagBox {
+	padding-top: 8px;
+	width: 100px;
+	height: 50px;
+	margin-bottom: 6px;
+	text-align: center;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	background-color: black;
+	color: white;
+	font-size: 20px;
+}
+
+.nickBox {
+	padding-top: 8px;
+	width: 192px;
+	height: 50px;
+	margin-left: 12px;
+	margin-bottom: 6px;
+	text-align: center;
+	border-radius: 5px;
+	border: 2px solid black;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	background-color: white;
+	font-size: 20px;
+}
+
+.dataBox {
+	padding-top: 8px;
+	height: 50px;
+	margin-left: 35px;
+	margin-bottom: 6px;
+	text-align: center;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	background-color: black;
+	color: white;
+	font-size: 20px;
+}
+
+.gdsNameBox {
+	width: 530px;
+	height: 50px;
+	border-radius: 5px;
+	border: 2px solid black;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	font-size: 20px;
+}
+
+.priceTagBox {
+	padding-top: 8px;
+	width: 150px;
+	height: 50px;
+	margin-left: -7px;
+	margin-bottom: 6px;
+	text-align: center;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	background-color: black;
+	color: white;
+	font-size: 20px;
+}
+
+.priceBox {
+	width: 150px;
+	height: 50px;
+	border-radius: 5px;
+	border: 2px solid black;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	font-size: 20px;
+}
+
+.imgTagBox {
+	padding-top: 8px;
+	height: 50px;
+	margin-left: -9px;
+	margin-bottom: 6px;
+	text-align: center;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	background-color: black;
+	color: white;
+	font-size: 20px;
+}
+
+.infoBox {
+	padding-top: 8px;
+	height: 50px;
+	margin-left: 35px;
+	margin-right: 35px;
+	margin-bottom: 6px;
+	text-align: center;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	background-color: black;
+	color: white;
+	font-size: 20px;
+}
+
+.textBox {
+	padding-top: 2px;
+	margin-bottom: 6px;
+	border-radius: 5px;
+	border: 2px solid black;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	font-size: 20px;
+}
+
+.amountBox {
+	width: 150px;
+	height: 50px;
+	border-radius: 5px;
+	border: 2px solid black;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	font-size: 20px;
+}
+
+.imgBox {
+	margin-top: 10px;
+}
+
+.registBtn {
+	width: 120px;
+	height: 40px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: white;
+    font-size: 20px;
+}
+
+.registBtn:hover {
+	color: white;
+	background-color: black;
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.manager.mapper.AnswerSQLMapper">
+
+	<!-- 관리자별 질문 목록 가져오기 -->
+	<select id="selectByAnswer" resultType="com.dj.wte.customer.vo.AskVo">
+	<![CDATA[
+		SELECT * FROM WTE_Ask, WTE_Assign 
+		WHERE wte_ask.ask_no = wte_assign.ask_no
+		AND wte_assign.manager_no = ${manager_no}
+		ORDER by wte_ask.ask_check ASC, wte_ask.ask_writedate ASC	
+	]]>
+	</select>
+	
+	<!-- 관리자별 질문 목록 중 미답변 목록 -->
+	<select id="selectByPrepare" resultType="com.dj.wte.customer.vo.AskVo">
+	<![CDATA[	
+		SELECT * FROM wte_ask, WTE_Assign 
+		WHERE wte_ask.ask_no=wte_assign.ask_no
+		AND wte_assign.manager_no = ${manager_no}
+		and wte_ask.ask_check = 'N'
+		ORDER by wte_ask.ask_writedate ASC
+	]]>
+	</select>
+		
+	<!-- 관리자별 질문 목록 중 답변 완료 목록 -->
+	<select id="selectByComplete" resultType="com.dj.wte.customer.vo.AskVo">
+	<![CDATA[	
+		SELECT * FROM wte_ask, WTE_Assign 
+		WHERE wte_ask.ask_no=wte_assign.ask_no
+		AND wte_assign.manager_no = ${manager_no}
+		and wte_ask.ask_check = 'Y'
+		ORDER by wte_ask.ask_writedate ASC
+	]]>
+	</select>
+		
+	<!-- 답변 삽입 -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Answer VALUES(
+			#{answer_no},
+			#{assign_no},
+			#{answer_content},
+			SYSDATE)		
+	]]>
+	</insert>	
+
+	<select id="createKey" resultType="int">
+	<![CDATA[
+		SELECT WTE_Answer_seq.nextval FROM Dual	
+	]]>
+	</select>
+	
+	<!-- 답변 완료 -->
+	<update id="update">
+	<![CDATA[
+		UPDATE WTE_ask 
+		SET ask_check='Y'
+		WHERE ask_no = #{ask_no}	
+	]]>
+	</update>	
+	
+	<select id="getAnswer" resultType="com.dj.wte.manager.vo.AnswerVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Answer
+		WHERE assign_no = #{assign_no}
+		ORDER by answer_no desc
+	]]>
+	</select>	
+	
+	<delete id="deleteAnswer">
+	<![CDATA[
+		DELETE FROM WTE_Answer WHERE assign_no = #{assign_no}
+	]]>
+	</delete>
+	
+	<update id="deleteupdate">
+	<![CDATA[
+		UPDATE WTE_ask 
+		SET ask_check='N'
+		WHERE ask_no = #{ask_no}	
+	]]>
+	</update>
+	
+	<update id="answerUpdate">
+	<![CDATA[
+		UPDATE WTE_Answer 
+		SET answer_content = #{answer_content}, answer_writedate = SYSDATE
+		WHERE assign_no = #{assign_no}	
+	]]>
+	</update>
+			
+	<update id="transferAnswer">
+	<![CDATA[
+		UPDATE WTE_Assign
+		SET manager_no = ${select_manager}, assign_date = SYSDATE
+		WHERE assign_no = #{assign_no}
+	]]>
+	</update>
+</mapper>

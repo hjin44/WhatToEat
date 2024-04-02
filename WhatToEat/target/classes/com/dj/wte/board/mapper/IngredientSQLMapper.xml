@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.IngredientSQLMapper">
+	<!-- 대분류 select -->
+	<select id="selectGroup" resultType="com.dj.wte.board.vo.GroupVo">
+	<![CDATA[
+		SELECT * FROM WTE_Group
+	]]>
+	</select>
+	
+	<!-- 중분류 select(group_no) -->
+	<select id="selectSubgroup" resultType="com.dj.wte.board.vo.SubgroupVo">
+	<![CDATA[
+		SELECT * FROM WTE_Subgroup WHERE group_no = #{group_no}
+	]]>
+	</select>
+	
+	<!-- 현정 추가 -->
+	<!-- 중분류 이름 가져오려고 -->
+	<select id="selectSubgroupBysubgroupNo" resultType="com.dj.wte.board.vo.SubgroupVo">
+	<![CDATA[
+		SELECT * FROM WTE_Subgroup WHERE subgroup_no = #{subgroup_no}
+	]]>
+	</select>
+	
+	<!-- 대분류 select by no -->
+	<select id="selectGroupByNo" resultType="com.dj.wte.board.vo.GroupVo">
+	<![CDATA[
+		SELECT * FROM WTE_Group WHERE group_no = #{group_no}
+	]]>
+	</select>
+	
+</mapper>

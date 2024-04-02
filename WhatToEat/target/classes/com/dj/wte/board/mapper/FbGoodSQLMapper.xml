@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.FbGoodSQLMapper">
+	
+	<!-- 좋아요  -->
+	<insert id="good">
+	<![CDATA[
+		INSERT INTO WTE_FB_Good VALUES
+		(
+		WTE_FB_Good_seq.nextval,
+		#{fb_no},
+		#{member_no}
+		)
+	]]>
+	</insert>
+	
+	<!-- 좋아요 여부 검사  -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.FbGoodVo">
+	<![CDATA[
+		SELECT * FROM WTE_FB_Good
+		WHERE fb_no = #{fb_no}
+		AND member_no = #{member_no}
+	]]>
+	</select>
+	
+	<!-- 좋아요 취소  -->
+	<delete id="deleteGood">
+	<![CDATA[
+		DELETE FROM WTE_FB_Good
+		WHERE fb_good_no = #{fb_good_no} 
+	]]>
+	</delete>
+	
+	<!-- 좋아요 갯수  -->
+	<select id="getGoodCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_FB_Good
+		WHERE fb_no = #{fb_no}
+	]]>
+	</select>
+
+</mapper>

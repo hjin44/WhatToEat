@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.customer.mapper.QnASQLMapper">
+
+	<!-- 질문 목록 보기 -->
+	<select id="selectAll" resultType="com.dj.wte.customer.vo.AskVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Ask 
+		WHERE member_no=#{member_no}
+		ORDER by ask_no desc
+	]]>
+	</select>
+	
+	<select id="createKey" resultType="int">
+	<![CDATA[
+		SELECT WTE_Ask_seq.nextval FROM Dual	
+	]]>
+	</select>
+	
+	<!-- 질문 삽입 -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Ask VALUES(
+			#{ask_no},
+			#{member_no},
+			#{ask_title},
+			#{ask_content},
+			#{ask_check},
+			SYSDATE)
+	]]>
+	</insert>	
+	
+	<!-- 질문글 보기 -->
+	<select id="selectByNo" resultType="com.dj.wte.customer.vo.AskVo">
+	<![CDATA[
+		SELECT * FROM WTE_Ask WHERE ask_no = #{ask_no}
+	]]>	
+	</select>
+	
+	<!-- 배정 테이블 가져오기 -->
+	<select id="selectByAssign" resultType="com.dj.wte.customer.vo.AssignVo">
+	<![CDATA[
+		SELECT * FROM WTE_Assign WHERE ask_no = #{ask_no}
+	]]>	
+	</select>
+		
+	<select id="createKeyAssign" resultType="int">
+	<![CDATA[
+		SELECT WTE_Assign_seq.nextval FROM Dual	
+	]]>
+	</select>		
+
+	<!-- 질문글 매니저에게 배정하기 -->
+	<insert id="insertAssign">
+	<![CDATA[
+		INSERT INTO WTE_Assign VALUES(
+    		#{assign_no},
+    		#{ask_no},
+    		(
+    			SELECT MIN(t1.manager_no) as assign_manager_no FROM(
+    				SELECT manager_no,(
+        				SELECT COUNT(*) FROM WTE_Assign wa_inner
+        				WHERE wa_inner.manager_no = wm.manager_no
+        				AND wa_inner.assign_no NOT IN(
+           					SELECT assign_no FROM WTE_Answer
+        				)
+    				) as cnt
+    				FROM WTE_Manager wm
+				) t1
+				WHERE t1.cnt = (
+    				SELECT MIN(
+    				(
+        				SELECT COUNT(*) FROM WTE_Assign wa_inner
+       					WHERE wa_inner.manager_no = wm.manager_no
+       					AND wa_inner.assign_no NOT IN(
+            				SELECT assign_no FROM WTE_Answer
+        				)
+    				)) as cnt_min
+    			FROM WTE_Manager wm
+				)),
+    		SYSDATE)
+	
+	]]>
+	</insert>
+	
+	<!-- 질문 삭제 쿼리 -->
+	<delete id="deleteByAsk" >
+	<![CDATA[
+		DELETE FROM WTE_Ask WHERE ask_no = #{ask_no}
+	]]>
+	</delete>
+	<!-- 질문 배정 삭제 쿼리 -->
+	<delete id="deleteByAssign" >
+	<![CDATA[
+		DELETE FROM WTE_Assign WHERE ask_no = #{ask_no}
+	]]>
+	</delete>
+</mapper>

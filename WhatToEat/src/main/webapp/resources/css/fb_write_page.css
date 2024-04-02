@@ -1,0 +1,283 @@
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  text-decoration: none;
+  border-collapse: collapse;
+  list-style: none;
+}
+
+ 
+
+/* 미디어 햄버거
+.navbar__toogleBtn {
+  display: none;
+  position: absolute;
+  right: 32px;
+  font-size: 24px;
+  color: var(--accent-color);
+} */
+
+/* 자유게시판 */
+.fb__header  {
+  position: relative;
+  top: -45px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1280px;
+  margin: auto;
+  border-radius: 20px; 
+}
+
+
+
+.fb__header > li {
+  flex: 1;
+  height: 80px;
+  
+
+}
+.fb__header > li > div {
+  text-align: center;
+  background-color: #fff;
+  margin-top: 20px;
+  height: 45px;
+}
+.fb__header > li:not(:last-child) > div {
+  border-right: 1px solid gray;
+  
+}
+
+.fb__font1 {
+  font-size: 30px;
+  font-weight: bolder;
+}
+.fb__font2 {
+  font-size: 16px;
+  font-weight: lighter;
+  padding-top: 10px;
+}
+.fb__font2 > i {
+  color: red;
+  
+}
+
+.write_title {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 60px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  font-weight: bolder;
+  text-shadow: 3px 3px 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 2px gray rgba(0, 0, 0, 0.1);
+  border-top: solid 2px gray rgba(0, 0, 0, 0.1);
+  padding-left:20px;
+	
+	}
+
+.write_title > li {
+  padding-right: 70px;
+  flex: 1;
+  margin: auto;
+}
+.write_title > li > div {
+  text-align: center;
+ 
+}
+
+.write_title2{
+  position: relative;
+  left: -70px;
+}
+
+
+.select{
+	 height: 25px;
+	 
+	float:right;
+		
+}
+
+.write_input{
+	
+	width: 600px;
+	
+}
+.write_input > input{
+	height: 25px;
+	width: 500px;
+	}
+
+
+.write_nick {
+  padding: 0;
+  display: flex;
+  background-color:  #dcdcdc;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.write_nick > li {
+  flex: 1;
+  margin: auto;
+}
+.write_nick > li > div {
+  text-align: center;
+  padding-right:20px;
+  color:black;
+}
+
+
+.write_body {
+	
+  height: auto;
+  padding: 0;
+  display: flex;
+  background-color:#fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.write_body > li {
+	padding-top:20px;
+  flex: 1;
+  margin: auto;
+}
+.write_body > li > div {
+  text-align: center;
+}
+
+
+.write_imgyo{
+	
+    background-color: #fff;
+    width: 1000px;
+    margin: auto;
+}
+.write_img {
+	    background-color: #fff;
+    width: 1000px;
+    margin: auto;
+  height: 110px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+ 
+  margin: auto;
+  border-shadow: solid 2px gray rgba(0, 0, 0, 0.1);
+  border: solid 1px black;
+	
+}
+
+.write_img > li {
+  flex: 1;
+  margin: auto;
+}
+.write_img > li > div {
+	padding-top:5px;
+   text-align: right;
+  
+  
+}
+
+.write_img3 {
+   width: 1000px;
+    background-color: #fff;
+   position: relative;
+     margin: auto;
+   }
+
+.write_img1{
+	text-align: left;
+    width: 500px;
+}
+
+.write_img label {
+  display: inline-block;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+   
+   }          
+        
+.write_img input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+   display: block;
+}
+
+.field input[type="file"] {
+  display: block;
+}
+.imageThumb {
+  width: 100px;
+  height: 50px;
+  border: 2px solid;
+  padding: 1px;
+  cursor: pointer;
+}
+.pip {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+.remove {
+  display: block;
+  background: #444;
+  border: 1px solid black;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+.remove:hover {
+  background: white;
+  color: black;
+}
+
+
+
+
+.write_sbm {
+	 border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 50px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.write_sbm > li {
+  flex: 1;
+  margin: auto;
+}
+.write_sbm > li > div {
+	background-color: #fff;
+  text-align: center;
+}
+
+
+.write_sbm1 >span{
+cursor: pointer;
+ border: solid 1px black;
+ border-radius: 5px;
+ box-shadow: rgba(0, 0, 0, 0.1);
+}

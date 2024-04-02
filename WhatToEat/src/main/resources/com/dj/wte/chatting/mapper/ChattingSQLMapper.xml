@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.chatting.mapper.ChattingSQLMapper">
+
+	<!-- 채팅방 no -->
+	<select id="createKeyByChatRoom" resultType="int">
+	<![CDATA[
+		SELECT WTE_Chat_Room_seq.nextval FROM Dual	
+	]]>
+	</select>
+	
+	<!-- 채팅방 삽입 -->
+	<insert id="insertByChatRoom">
+	<![CDATA[
+		INSERT INTO WTE_Chat_Room VALUES(
+			#{chat_room_no},
+			#{member_no},
+			#{chat_room_title},
+			#{chat_total_people},
+			SYSDATE,
+			TO_DATE('1111-11-11','YYYY-MM-DD'),
+            #{chat_room_status})
+    ]]>
+	</insert>
+	
+	<!-- 채팅방 목록 -->
+	<select id="selectChatroom" resultType="com.dj.wte.chatting.vo.ChatRoomVo">
+	<![CDATA[
+		select * from WTE_Chat_Room 
+		where chat_room_status = 'OPEN'
+		ORDER by chat_room_open_date desc
+	]]>
+	</select>
+		
+		<!-- 채팅방 검색 : 방 이름 -->
+		<select id="selectByChatroomTitle" resultType="com.dj.wte.chatting.vo.ChatRoomVo">
+		<![CDATA[
+			SELECT * FROM WTE_Chat_Room 
+			WHERE chat_room_title LIKE '%' || #{search_chat_word} || '%'
+			AND chat_room_status = 'OPEN'
+			ORDER BY chat_room_open_date DESC
+		]]>
+		</select>
+		
+		<!-- 채팅방 검색 : 방장 -->		
+		<select id="selectByChatroomKing" resultType="com.dj.wte.chatting.vo.ChatRoomVo">
+		<![CDATA[
+			SELECT c.* FROM WTE_Chat_Room c, WTE_Member m 
+			WHERE m.member_no = c.member_no 
+			AND m.member_nick LIKE '%' || #{search_chat_word} || '%'
+			AND c.chat_room_status = 'OPEN'
+			ORDER BY chat_room_open_date DESC
+		]]>
+		</select>
+		
+		<!-- 채팅방 검색 : 내가 들어간 채팅방 -->		
+		<select id="selectByMyChatroom" resultType="com.dj.wte.chatting.vo.ChatRoomVo">
+		<![CDATA[
+			SELECT c.* FROM WTE_Chat_Room c, WTE_Chat_Attend_Member m 
+			WHERE m.chat_room_no = c.chat_room_no 
+			AND m.member_no = #{member_no}
+			AND c.chat_room_status = 'OPEN'
+			AND m.chat_out_date = TO_DATE('1111-11-11','YYYY-MM-DD')
+			ORDER BY chat_room_open_date
+		]]>
+		</select>		
+		
+	
+	<!-- 채팅방 개수 -->
+	<select id="numberOfChatroom" resultType="int">
+	<![CDATA[
+		select count(*) from WTE_Chat_Room 
+		where chat_room_status = 'OPEN'
+		ORDER by chat_room_open_date desc
+	]]>
+	</select>	
+	
+	
+	<!-- 채팅방 -->
+	<select id="selectByChatNo" resultType="com.dj.wte.chatting.vo.ChatRoomVo">
+	<![CDATA[
+		select * from WTE_Chat_Room where chat_room_no = #{chat_room_no}
+	]]>
+	</select>
+	
+	<!-- 채팅방 참여 맴버 -->
+	<select id="createKeyByChatMember" resultType="int">
+	<![CDATA[
+		SELECT WTE_Chat_Attend_Member_seq.nextval FROM Dual	
+	]]>
+	</select>
+	
+	<!-- 채팅맴버 삽입 -->
+	<insert id="insertByChatMember">
+	<![CDATA[
+		INSERT INTO WTE_Chat_Attend_Member VALUES(
+			#{chat_attend_member_no},
+			#{chat_room_no},
+			#{member_no},
+			#{chat_room_owner},
+			SYSDATE,
+			TO_DATE('1111-11-11','YYYY-MM-DD')
+			)
+    ]]>
+	</insert>
+	
+		<!-- 참가했습니다.....메세지 -->
+		<insert id="insertByAttendChat">
+		<![CDATA[
+			INSERT INTO WTE_Chatting_Message VALUES(
+			    #{chatting_message_no},
+			    #{chat_room_no},
+			    #{chat_attend_member_no},
+			    #{chatting_content},
+			    SYSDATE)
+	    ]]>
+		</insert>
+		
+	
+	<!-- 지금 입장 맴버가 그 채팅방에 있는 지 검색 -->
+	<select id="selectTalkingMember" resultType="com.dj.wte.chatting.vo.AttendVo">
+	<![CDATA[
+		select * from WTE_Chat_Attend_Member 
+		where chat_room_no = #{chat_room_no} 
+		and member_no = #{member_no}
+		and chat_out_date = TO_DATE('1111-11-11','YYYY-MM-DD')
+	]]>
+	</select>
+	
+	<select id="countMember" resultType="int">
+	<![CDATA[
+		select count(*) from WTE_Chat_Attend_Member 
+		where chat_room_no = #{chat_room_no}
+		and chat_out_date = TO_DATE('1111-11-11','YYYY-MM-DD')
+	]]>
+	</select>
+	
+	<!-- 채팅방에 있는 맴버들 가져오기 -->
+	<select id="selectChatMember" resultType="com.dj.wte.chatting.vo.AttendVo">
+	<![CDATA[
+		select * from WTE_Chat_Attend_Member 
+		where chat_room_no = #{chat_room_no}
+		and chat_out_date = TO_DATE('1111-11-11','YYYY-MM-DD') 
+		ORDER by chat_attend_date ASC
+	]]>
+	</select>
+	
+	<!-- 채팅방 나가기 -->
+	<update id="outOfChat">
+	<![CDATA[
+		UPDATE WTE_Chat_Attend_Member 
+		SET chat_out_date = sysdate
+		WHERE chat_room_no = #{chat_room_no}
+		and member_no = #{member_no}	
+	]]>
+	</update>
+	
+	<!-- 강퇴시키기 -->
+	<update id="walkoutOfChat">
+	<![CDATA[
+		UPDATE WTE_Chat_Attend_Member 
+		SET chat_out_date = TO_DATE('9999-11-11','YYYY-MM-DD')
+		WHERE chat_room_no = #{chat_room_no}
+		and member_no = #{member_no}	
+	]]>
+	</update>
+	
+	<!-- 지금 입장 맴버가 그 채팅방에서 퇴장 당했는 지 검색 -->
+	<select id="selectwalkoutMember" resultType="com.dj.wte.chatting.vo.AttendVo">
+	<![CDATA[
+		select * from WTE_Chat_Attend_Member 
+		where chat_room_no = #{chat_room_no} 
+		and member_no = #{member_no}
+		and chat_out_date = TO_DATE('9999-11-11','YYYY-MM-DD')
+	]]>
+	</select>
+	
+	<!-- 채팅방 닫기  -->
+	<update id="closeChatroom">
+	<![CDATA[
+		UPDATE wte_chat_room
+		SET chat_room_status = 'CLOSE', chat_room_close_date = sysdate
+		WHERE chat_room_no = #{chat_room_no}
+	]]>
+	</update>	
+	
+	<!-- 채팅방 닫기 : 참가 맴버 내보내기  -->
+	<update id="closeChatroomAndMember">
+	<![CDATA[
+		UPDATE WTE_Chat_Attend_Member 
+		SET chat_out_date = sysdate
+		WHERE chat_room_no = #{chat_room_no}
+	]]>
+	</update>
+	
+	<!--              여기서부터 채팅 내용                          -->
+	<select id="createKeyByChatting" resultType="int">
+	<![CDATA[
+		SELECT WTE_Chatting_Message_seq.nextval FROM Dual	
+	]]>
+	</select>	
+	
+	<!-- 채팅 내용 삽입 -->
+	<insert id="insertChattingContent">
+	<![CDATA[
+		INSERT INTO WTE_Chatting_Message VALUES(
+			#{chatting_message_no},
+			#{chat_room_no},
+			#{chat_attend_member_no},
+			#{chatting_content},
+			SYSDATE)		
+	]]>
+	</insert>
+	
+		<!--         여기서부터 채팅 내용  : 이미지                     -->
+		<select id="createKeyByImage" resultType="int">
+		<![CDATA[
+			SELECT WTE_Chatting_Image_seq.nextval FROM Dual	
+		]]>
+		</select>	
+		
+		<!-- 채팅 내용 삽입 -->
+		<insert id="insertChattingImage">
+		<![CDATA[
+			INSERT INTO WTE_Chatting_Image VALUES(
+				#{chatting_image_no},
+				#{chatting_message_no},
+				#{chatting_image_link},
+				SYSDATE)		
+		]]>
+		</insert>
+	
+	<select id="selectChatting" resultType="com.dj.wte.chatting.vo.ChattingVo">
+	<![CDATA[
+		SELECT * FROM WTE_Chatting_Message WHERE chat_room_no = #{chat_room_no}
+	]]>
+	</select>
+	
+	<select id="selectByChatAttendMemberNo" resultType="com.dj.wte.chatting.vo.AttendVo">
+	<![CDATA[
+		select * from WTE_Chat_Attend_Member where chat_attend_member_no = #{chat_attend_member_no}
+	]]>
+	</select>
+	
+	<!-- 추가 대화만 업데이트 -->		
+	<select id="selectAppendChatting" resultType="com.dj.wte.chatting.vo.ChattingVo">
+	<![CDATA[
+		select * from WTE_Chatting_Message 
+		where chat_room_no = #{chat_room_no}
+		and chatting_date > #{chatting_date}
+	]]>
+	</select>
+</mapper>

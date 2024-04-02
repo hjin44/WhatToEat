@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.board.mapper.PostscriptImageSQLMapper">
+
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Postscript_Image VALUES(
+		    WTE_Postscript_Image_seq.nextval,
+		    #{postscript_no},
+		    #{postscript_image_link}
+		)
+	]]>
+	</insert>
+
+	<select id="select_postscript_no" resultType="com.dj.wte.board.vo.PostscriptImageVo">
+	<![CDATA[
+		SELECT * FROM WTE_Postscript_Image WHERE postscript_no = #{postscript_no}
+	]]>
+	</select>
+
+	<select id="select_first_image" resultType="com.dj.wte.board.vo.PostscriptImageVo">
+	<![CDATA[
+		SELECT * FROM WTE_Postscript_Image WHERE postscript_image_no = (SELECT min(postscript_image_no) FROM WTE_Postscript_Image WHERE postscript_no = #{postscript_no})
+	]]>
+	</select>
+
+
+</mapper>

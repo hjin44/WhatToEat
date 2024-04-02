@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.GoodsSQLMapper">
+	
+	<!-- 상품번호 증가  -->
+	<select id="createKey" resultType="int">
+		<![CDATA[
+			SELECT WTE_Goods_seq.nextval FROM Dual
+		]]>
+	</select>
+	
+	<!-- 상품 등록 -->
+	<insert id="insert">
+		<![CDATA[
+			INSERT INTO WTE_Goods VALUES(
+			#{goods_no},
+			#{member_no},
+			#{goods_name},
+			#{goods_price},
+			#{goods_info},
+			#{goods_amount},
+			#{goods_readcount},
+			SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<!-- 상품 리스트 출력  -->
+	<select id="selectAll" resultType="com.dj.wte.board.vo.GoodsVo">
+	<![CDATA[	
+		SELECT *
+		FROM (
+			SELECT c1.*, ROWNUM as rnum
+			FROM (
+				SELECT * FROM WTE_Goods ORDER BY goods_no DESC) c1
+			) c2
+		WHERE c2.rnum >= (#{page_num}-1)*12+1
+		AND c2.rnum <= #{page_num}*12
+	]]>
+	</select>
+	
+	<!-- 상품 보기  -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.GoodsVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods WHERE goods_no = #{goods_no}
+	]]>
+	</select>
+	
+	<!-- 상품명별 검색  -->
+	<select id="selectByGoods" resultType="com.dj.wte.board.vo.GoodsVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods WHERE goods_name LIKE '%' || #{search_word} || '%'
+		ORDER BY goods_no DESC
+	]]>
+	</select>
+	
+	<!-- 내용별 검색  -->
+	<select id="selectByInfo" resultType="com.dj.wte.board.vo.GoodsVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods WHERE goods_info LIKE '%' || #{search_word} || '%'
+		ORDER BY goods_no DESC
+	]]>
+	</select>
+	
+	<!-- 작성자별 검색  -->
+	<select id="selectByWriter" resultType="com.dj.wte.board.vo.GoodsVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods g, WTE_Member m
+		WHERE m.member_no = g.member_no
+		AND m.member_nick LIKE '%' || #{search_word} || '%'
+		ORDER BY goods_no DESC
+	]]>
+	</select>
+	
+	<!-- 판매글 수정  -->
+	<update id="update">
+	<![CDATA[
+		UPDATE WTE_Goods SET
+		goods_name = #{goods_name},
+		goods_price = #{goods_price},
+		goods_info = #{goods_info},
+		goods_amount = #{goods_amount}
+		WHERE goods_no = #{goods_no}
+	]]>
+	</update>
+	
+	<!-- 판매글 삭제  -->
+	<delete id="deleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Goods WHERE goods_no = #{no}
+	]]>
+	</delete>
+	
+	<!-- 상품 갯수  -->
+	<select id="getGoodsCount" resultType="Integer">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Goods
+	]]>
+	</select>
+	
+	<!-- 조회수  -->
+	<update id="increaseCount">
+	<![CDATA[
+		UPDATE WTE_Goods SET
+		goods_readcount = goods_readcount + 1
+		WHERE goods_no = #{no}
+	]]>
+	</update>
+	
+	<!-- 페이징  -->
+	<select id="getPageCount" resultType="int">
+	<![CDATA[
+		SELECT CEIL(COUNT(*)/12) FROM WTE_Goods 
+	]]>
+	</select>
+	
+	<!-- 상품 재고 출력 -->
+	<select id="getAmountByNo" resultType="Integer">
+	<![CDATA[
+		SELECT goods_amount FROM WTE_Goods WHERE goods_no = #{goods_no}
+	]]>
+	</select>
+	
+	<!-- 상품 리스트 출력(메인 페이지) -->
+	<select id="selectAllInMain" resultType="com.dj.wte.board.vo.GoodsVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods ORDER BY goods_no DESC
+	]]>
+	</select>
+	
+</mapper>

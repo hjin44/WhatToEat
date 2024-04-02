@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.FbRepleSQLMapper">
+
+	<!-- 댓글 작성  -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_FB_Reple VALUES(
+			WTE_FB_Reple_seq.nextval,
+			#{fb_no},
+			#{member_no},
+			#{fb_reple_content},
+			SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<!-- 댓글 리스트 출력  -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.FbRepleVo">
+	<![CDATA[
+		SELECT * FROM WTE_FB_Reple WHERE fb_no = #{fb_no}
+		ORDER BY fb_reple_no ASC
+	]]>
+	</select>
+	
+	<!-- 댓글 삭제  -->
+	<delete id="deleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_FB_Reple
+		WHERE fb_reple_no = #{fb_reple_no}
+		AND fb_no = #{fb_no}
+	]]>
+	</delete>
+	
+	<!-- 댓글 갯수 -->
+	<select id="getRepleCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_FB_Reple WHERE fb_no = #{fb_no}
+	]]>
+	</select>
+	
+	<!-- 글 삭제되면 댓글도 삭제  -->
+	<delete id="fbdeleteByFbNo">
+	<![CDATA[
+		DELETE FROM WTE_FB_Reple WHERE fb_no = #{no} 
+	]]>
+	</delete>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+

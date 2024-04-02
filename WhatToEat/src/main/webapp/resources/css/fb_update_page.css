@@ -1,0 +1,199 @@
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  text-decoration: none;
+  border-collapse: collapse;
+  list-style: none;
+}
+
+ 
+
+/* 미디어 햄버거
+.navbar__toogleBtn {
+  display: none;
+  position: absolute;
+  right: 32px;
+  font-size: 24px;
+  color: var(--accent-color);
+} */
+
+/* 자유게시판 */
+.fb__header  {
+  position: relative;
+  top: -45px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1130px;
+  margin: auto;
+  border-radius: 20px; 
+}
+
+
+
+.fb__header > li {
+  flex: 1;
+  height: 80px;
+  
+
+}
+.fb__header > li > div {
+  text-align: center;
+  background-color: #fff;
+  margin-top: 20px;
+  height: 45px;
+}
+.fb__header > li:not(:last-child) > div {
+  border-right: 1px solid gray;
+  
+}
+
+.fb__font1 {
+  font-size: 30px;
+  font-weight: bolder;
+}
+.fb__font2 {
+  font-size: 16px;
+  font-weight: lighter;
+  padding-top: 10px;
+}
+.fb__font2 > i {
+  color: red;
+  
+}
+
+.update_nick {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  background-color: #dcdcdc;
+  font-weight: bolder;
+  text-shadow: 3px 3px 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 2px gray rgba(0, 0, 0, 0.1);
+  border-top: solid 2px gray rgba(0, 0, 0, 0.1);
+  padding-left:20px;
+	
+	}
+
+.update_nick > li {
+  padding-right: 70px;
+  flex: 1;
+  margin: auto;
+}
+.update_nick > li > div {
+  text-align: center;
+ 
+}
+
+
+.update_title {
+	
+	height: 50px;
+  padding: 0;
+  display: flex;
+  background-color:  #fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.update_title > li {
+  flex: 1;
+  margin: auto;
+}
+.update_title > li > div {
+	padding-top:5px;
+  text-align: center;
+  color:black;
+  height: 40px;
+}
+
+.update_title1 >  input{
+	width: 500px;
+	
+	}
+
+
+
+
+.update_body {
+  height: auto;
+  padding: 0;
+  display: flex;
+  background-color:#fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.update_body > li {
+	padding-top:20px;
+  flex: 1;
+  margin: auto;
+}
+.update_body > li > div {
+  text-align: center;
+}
+
+.update_body1 {
+	
+  height: auto;
+  padding: 0;
+  display: flex;
+  background-color:#fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.update_body1 > li {
+	padding-top:20px;
+  flex: 1;
+  margin: auto;
+}
+.update_body1 > li > div {
+  text-align: center;
+}
+
+.update_body1 {
+	 border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 50px;
+  padding: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  margin: auto;
+  border-bottom: solid 1px gray rgba(0, 0, 0, 0.1);
+}
+
+.update_body1 > li {
+  flex: 1;
+  margin: auto;
+}
+.update_body1 > li > div {
+	background-color: #fff;
+  text-align: center;
+}
+
+
+.update_body2 >span{
+cursor: pointer;
+ border: solid 1px black;
+ border-radius: 5px;
+ box-shadow: rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+

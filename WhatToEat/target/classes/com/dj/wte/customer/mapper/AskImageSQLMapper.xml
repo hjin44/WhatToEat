@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.wte.customer.mapper.AskImageSQLMapper">
+
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_QnA_Image VALUES(
+		    WTE_QnA_Image_seq.nextval,
+		    #{ask_no},
+		    #{image_link}
+		)
+	]]>
+	</insert>
+
+	<select id="selectByAskNo" resultType="com.dj.wte.customer.vo.AskImageVo">
+	<![CDATA[
+		SELECT * FROM WTE_QnA_Image WHERE ask_no = #{ask_no}
+	]]>
+	</select>
+
+</mapper>

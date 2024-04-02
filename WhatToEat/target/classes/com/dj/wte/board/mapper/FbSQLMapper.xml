@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.FbSQLMapper">
+
+
+	<select id="createKey" resultType="int">
+	<![CDATA[
+		SELECT WTE_Fb_seq.nextval FROM Dual
+	]]>	
+	</select>
+	
+	
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Fb VALUES(
+			#{fb_no},
+		    #{member_no},
+		    #{fb_category_no},
+		    #{fb_title},
+		    #{fb_content},
+		    0,
+		    SYSDATE
+		)							
+	]]>
+	</insert>
+
+	<select id="selectAll" resultType="com.dj.wte.board.vo.FbVo">
+	<![CDATA[
+		SELECT * 
+		FROM (
+		    SELECT c1.*,ROWNUM as rnum 
+		    FROM (
+		        SELECT * 
+		        FROM WTE_Fb 
+		        ORDER BY fb_no DESC) c1
+		    ) c2
+		WHERE c2.rnum >= (#{page_num}-1)*10+1 
+		AND c2.rnum <= #{page_num}*10
+	]]>
+	</select>
+
+	<select id="selectByTitle" resultType="com.dj.wte.board.vo.FbVo">
+	<![CDATA[
+		SELECT * FROM WTE_Fb 
+		WHERE fb_title LIKE '%' || #{search_word} || '%'
+		ORDER BY fb_no DESC
+	]]>
+	</select>
+
+	<select id="selectByContent" resultType="com.dj.wte.board.vo.FbVo">
+	<![CDATA[
+		SELECT * FROM WTE_Fb 
+		WHERE fb_content LIKE '%' || #{search_word} || '%'
+		ORDER BY fb_no DESC
+	]]>
+	</select>
+
+	<select id="selectByWriter" resultType="com.dj.wte.board.vo.FbVo">
+	<![CDATA[
+		SELECT c.* FROM WTE_Fb c , WTE_Member m
+		WHERE m.member_no = c.member_no
+		AND m.member_nick LIKE '%' || #{search_word} || '%'
+		ORDER BY fb_no DESC
+	]]>
+	</select>
+
+
+	<!-- 글 보기..쿼리.. -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.FbVo">
+	<![CDATA[
+		SELECT * FROM WTE_Fb WHERE fb_no = #{no}
+	]]>
+	</select>
+
+	<!-- 글 삭제 쿼리... -->
+	<delete id="deleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Fb WHERE fb_no = #{no}
+	]]>
+	</delete>
+
+	<!-- 글 수정 쿼리... -->
+	<update id="update">
+	<![CDATA[
+		UPDATE WTE_Fb 
+		SET fb_title=#{fb_title},
+			fb_content=#{fb_content}
+		WHERE fb_no = #{fb_no}		
+	]]>
+	</update>
+
+	<update id="increaseReadCount">
+	<![CDATA[
+		UPDATE WTE_Fb 
+		SET fb_readcount = fb_readcount + 1
+		WHERE fb_no = #{no}		
+	]]>		
+	</update>
+	
+	<select id="getPageCount" resultType="int">
+	<![CDATA[
+		SELECT CEIL(COUNT(*)/10) FROM WTE_Fb
+	]]>			
+	</select>
+
+ 	<select id="selectByCategory" resultType="com.dj.wte.board.vo.FbCategoryVo">
+ 	<![CDATA[
+ 		SELECT * FROM WTE_FB_Category
+ 	]]>		
+ 	</select>
+ 	
+ 	<select id="selectByCategoryNo" resultType="com.dj.wte.board.vo.FbCategoryVo">
+ 	<![CDATA[
+ 		select * from WTE_FB_Category where fb_category_no = #{fb_category_no}
+ 	]]>		
+ 	</select>
+
+
+
+
+</mapper>

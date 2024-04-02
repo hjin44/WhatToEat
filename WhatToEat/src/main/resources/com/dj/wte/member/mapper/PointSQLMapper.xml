@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.member.mapper.PointSQLMapper">
+	
+	<!-- 포인트 충전  -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Goods_Point VALUES(
+		WTE_Goods_Point_seq.nextval,
+		#{member_no},
+		#{point_amount},
+		SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<!-- 보유 포인트 출력  -->
+	<select id="getPoint" resultType="Integer">
+	<![CDATA[
+		SELECT SUM(point_amount) FROM WTE_Goods_Point
+		WHERE member_no = #{member_no}
+	]]>
+	</select>
+	
+</mapper>

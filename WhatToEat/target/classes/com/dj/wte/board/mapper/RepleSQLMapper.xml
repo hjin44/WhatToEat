@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.RepleSQLMapper">
+	
+	<!-- 댓글 작성  -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Goods_Reply VALUES(
+			WTE_Goods_Reply_seq.nextval,
+			#{goods_no},
+			#{member_no},
+			#{goods_reply_comment},
+			SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<!-- 댓글 리스트 출력  -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.GoodsRepleVo">
+	<![CDATA[
+		SELECT * FROM WTE_Goods_Reply WHERE goods_no = #{goods_no}
+		ORDER BY goods_reply_no ASC
+	]]>
+	</select>
+	
+	<!-- 댓글 삭제  -->
+	<delete id="deleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Goods_Reply
+		WHERE goods_reply_no = #{goods_reply_no}
+		AND goods_no = #{goods_no}
+	]]>
+	</delete>
+	
+	<!-- 글 삭제시 댓글 삭제 -->
+	<delete id="chainDeleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Goods_Reply
+		WHERE goods_no = #{goods_no}
+	]]>
+	</delete>
+	
+	<!-- 댓글 갯수 -->
+	<select id="getRepleCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Goods_Reply WHERE goods_no = #{goods_no}
+	]]>
+	</select>
+		
+</mapper>

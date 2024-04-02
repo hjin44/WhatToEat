@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.member.mapper.MemberAuthSQLMapper">
+
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Member_Auth VALUES(
+		    WTE_MEMBER_AUTH_SEQ.nextval,
+		    0,
+		    #{member_email},
+		    #{auth_key},
+		    'N',
+		    SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<update id="updateAuthKey">
+	<![CDATA[
+		UPDATE WTE_Member_Auth 
+		SET auth_key = #{auth_key}, 
+		auth_confirm = 'N' 
+		WHERE member_email = #{member_email}
+	]]>
+	</update>
+	
+	<select id="select" resultType="com.dj.wte.member.vo.MemberAuthVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Member_Auth 
+		WHERE member_email = #{member_email}
+	]]>
+	</select>
+	
+	<update id="updateMemberNo">
+	<![CDATA[
+		UPDATE WTE_Member_Auth 
+		SET member_no = #{member_no},
+		auth_confirm = 'Y'
+		WHERE member_email = #{member_email}
+	]]>
+	</update>
+
+</mapper>

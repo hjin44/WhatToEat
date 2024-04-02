@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.board.mapper.RecipeSQLMapper">
+	
+	<!-- 나라별 select -->
+	<select id="selectNational" resultType="com.dj.wte.board.vo.RecipeNationalVo">
+	<![CDATA[
+		SELECT * FROM WTE_Recipe_National
+	]]>
+	</select>
+	
+	<!-- 종류별 select -->
+	<select id="selectKind" resultType="com.dj.wte.board.vo.RecipeKindVo">
+	<![CDATA[
+		SELECT * FROM WTE_Recipe_Kind
+	]]>
+	</select>
+	
+	<!-- 나라별 검색 -->
+	<select id="selectSearchNational" resultType="com.dj.wte.board.vo.RecipeVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Recipe
+		WHERE national_no = #{national_no}
+		ORDER BY recipe_no DESC
+	]]>
+	</select>
+	
+	<!-- 종류별 검색 -->
+	<select id="selectSearchKind" resultType="com.dj.wte.board.vo.RecipeVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Recipe
+		WHERE kind_no = #{kind_no}
+		ORDER BY recipe_no DESC
+	]]>
+	</select>
+	
+	
+	<!-- 상세 검색 -->
+	<select id="selectSearch" parameterType="hashmap" resultType="com.dj.wte.board.vo.RecipeVo">
+		SELECT r1.* 
+		FROM 
+		<choose>
+			<when test="(not_subgroup_no != null and not_subgroup_no != '')">
+			(
+			    SELECT * 
+			    FROM WTE_Recipe
+			    WHERE recipe_no NOT IN (
+			        SELECT recipe_no 
+			        FROM Ingredient_Recipe
+			        WHERE subgroup_no IN 
+			        <foreach collection="not_subgroup_no" item="subgroup_no" index="i" open="(" close=")" separator=",">
+						#{subgroup_no}
+				    </foreach>
+				)	    
+			) r1
+			</when>
+			<otherwise>
+				WTE_Recipe r1
+			</otherwise>
+		</choose>
+			<if test="(in_subgroup_no != null and in_subgroup_no != '')">
+			,(
+				SELECT recipe_no, COUNT(recipe_no) as count
+			    FROM Ingredient_Recipe
+			    WHERE subgroup_no IN 
+				<foreach collection="in_subgroup_no" item="subgroup_no" index="i" open="(" close=")" separator=",">
+					#{subgroup_no}
+			    </foreach>
+			    GROUP BY recipe_no
+		    ) r2
+		    </if>
+		<where>
+		<if test="(in_subgroup_no != null and in_subgroup_no != '')">
+		r1.recipe_no = r2.recipe_no
+		AND r1.recipe_no IN (
+		    SELECT recipe_no 
+		    FROM Ingredient_Recipe
+		    WHERE subgroup_no IN 
+			<foreach collection="in_subgroup_no" item="subgroup_no" index="i" open="(" close=")" separator=",">
+				#{subgroup_no}
+		    </foreach>
+		)
+		</if>
+		<if test="national_no != null and national_no != 0">
+		AND national_no = #{national_no}
+		</if>
+		<if test="kind_no != null and kind_no != 0">
+		AND kind_no = #{kind_no}
+		</if>
+		</where>
+		ORDER BY
+		<choose>
+			<when test="(in_subgroup_no != null and in_subgroup_no != '')">
+				count
+			</when>
+			<otherwise>
+				r1.recipe_no
+			</otherwise>
+		</choose>  
+		DESC
+	</select>
+	
+	<!-- 재료명으로 재료 찾기 -->
+	<select id="selectBySubgroupName" parameterType="List" resultType="int">	
+		SELECT subgroup_no 
+		FROM WTE_Subgroup
+		<where>
+			<foreach collection="array" item="subgroup_name">	
+				OR subgroup_name LIKE '%' || #{subgroup_name} || '%'
+			</foreach>
+		</where>
+	</select>
+	
+	<!-- 레시피명 검색 -->
+	<select id="selectSearchRecipe" resultType="com.dj.wte.board.vo.RecipeVo">	
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Recipe 
+		WHERE recipe_title like '%' || #{search} || '%'
+		ORDER BY recipe_no DESC
+	]]>
+	</select>
+	
+	<!-- 키 생성 -->
+	<select id="createKey" resultType="int">
+	<![CDATA[
+		SELECT WTE_Recipe_seq.nextval FROM Dual
+	]]>	
+	</select>
+	
+	<!-- 글 쓰기 쿼리 -->
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO WTE_Recipe VALUES(
+		    #{recipe_no},
+		    #{member_no},
+		    #{national_no},
+		    #{kind_no},
+		    #{recipe_title},
+		    #{recipe_mainphoto},
+		    #{recipe_sauce},
+		    #{recipe_people},
+		    #{recipe_time},
+		   	'0',
+		    SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<!-- 조회수 증가 쿼리 -->
+	<update id="increaseReadCount">
+	<![CDATA[
+		UPDATE WTE_Recipe 
+		SET recipe_readcount = recipe_readcount + 1
+		WHERE recipe_no = #{recipe_no}
+	]]>
+	</update>
+	
+	<!-- 재료 인서트 쿼리 -->
+	<insert id="insertIngredient">
+	<![CDATA[
+		INSERT INTO Ingredient_Recipe VALUES(
+		    Ingredient_Recipe_seq.nextval,
+		    #{recipe_no},
+		    #{subgroup_no},
+		    #{ingredient_recipe_quantity}
+		)
+	]]>
+	</insert>
+	
+	<!-- 레시피 컨텐트 인서트 쿼리 -->
+	<insert id="insertRecipeContent">
+	<![CDATA[
+		INSERT INTO WTE_Recipe_Content VALUES(
+		    WTE_Recipe_Content_seq.nextval,
+		    #{recipe_no},
+		    #{recipe_content},
+		    #{recipe_image_link}
+		)
+	]]>
+	</insert>
+	
+	<!-- 글 리스트 쿼리 : 다 뽑아오기 -->
+	<select id="selectAll" resultType="com.dj.wte.board.vo.RecipeVo">
+		<![CDATA[
+			SELECT * FROM WTE_Recipe
+			ORDER BY recipe_no DESC
+		]]>
+	</select>
+	
+	<!-- 글 보기 쿼리 -->
+	<select id="selectByNo" resultType="com.dj.wte.board.vo.RecipeVo">
+	<![CDATA[
+		SELECT * FROM WTE_Recipe WHERE recipe_no = #{recipe_no}
+	]]>
+	</select>
+	
+	<!-- 글 보기 재료 쿼리 -->
+	<select id="ingredientSelectByNo" resultType="com.dj.wte.board.vo.IngredientRecipeVo">
+	<![CDATA[
+		SELECT * FROM Ingredient_Recipe WHERE recipe_no = #{recipe_no}
+	]]>
+	</select>
+	
+	<!-- 글 보기 컨텐트 쿼리 -->
+	<select id="contentSelectByNo" resultType="com.dj.wte.board.vo.RecipeContentVo">
+	<![CDATA[
+		SELECT * FROM WTE_Recipe_Content WHERE recipe_no = #{recipe_no} ORDER BY recipe_content_no ASC
+	]]>
+	</select>
+	
+	<!-- 하트 누름 -->
+	<insert id="goodInsert">
+	<![CDATA[
+	INSERT INTO WTE_Recipe_Good VALUES(
+	    WTE_Recipe_Good_seq.nextval,
+	    #{member_no},
+	    #{recipe_no},
+	    SYSDATE
+	    )
+	]]>
+	</insert>
+	
+	<!-- 한 사람이 하나 글에 누른 추천 카운트 (하트 색깔) -->
+	<select id="selectCountByRecipeNoAndMemberNo" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Recipe_Good
+		WHERE recipe_no = #{recipe_no}
+		AND member_no = #{member_no}
+	]]>
+	</select>
+	
+	<!-- 추천 두 번 누르면 취소 됨(삭제) -->
+	<delete id="deleteByRecipeNoAndMemberNo" parameterType="map">
+	<![CDATA[
+		DELETE FROM WTE_Recipe_Good
+		WHERE recipe_no = #{recipe_no}
+		AND member_no = #{member_no}
+	]]>
+	</delete>
+	
+	
+	<!-- 추천 수 -->
+	<select id="selectCountByRecipeNo" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Recipe_Good
+		WHERE recipe_no = #{recipe_no}
+	]]>
+	</select>
+	
+	
+	<!-- 유저가 추가한 재료 인서트 -->
+	<insert id="subgroubInsert">
+	<![CDATA[
+	INSERT INTO WTE_Subgroup VALUES(
+	    WTE_Subgroup_seq.nextval,
+	    9,
+	    #{member_no},
+	    #{subgroup_name}
+	    )
+	]]>
+	</insert>
+	
+	<!-- 유저가 추가한 재료 인서트한거 넘버-->
+	<select id="selectSubgroupNo" resultType="int" parameterType="String">
+	<![CDATA[
+	SELECT subgroup_no FROM WTE_Subgroup
+	WHERE subgroup_name = #{subgroup_name}
+	]]>
+	</select>
+	
+	<select id="selectByingredintName" resultType="com.dj.wte.board.vo.SubgroupVo">
+	<![CDATA[
+		SELECT * FROM WTE_Subgroup
+		WHERE subgroup_name = #{ingredint}
+	]]>
+	</select>
+	
+	<!-- 서브그룹 -->
+	<select id="selectSubgroup" resultType="String">	
+	SELECT subgroup_name FROM WTE_Subgroup
+	</select>
+	
+	<select id="selectSubgroupVo" resultType="com.dj.wte.board.vo.SubgroupVo">	
+	SELECT * FROM WTE_Subgroup WHERE subgroup_name = #{subgroup_name}
+	</select>
+	
+	<!-- 글 삭제 쿼리 -->
+	<delete id="deleteByNo">
+	<![CDATA[
+		DELETE FROM WTE_Recipe WHERE recipe_no = #{no} 
+	]]>
+	</delete>
+	
+	<delete id="deleteIngredient">
+	<![CDATA[
+		DELETE FROM Ingredient_Recipe WHERE recipe_no = #{no} 
+	]]>
+	</delete>
+	
+	<delete id="deleteContent">
+	<![CDATA[
+		DELETE FROM WTE_Recipe_Content WHERE recipe_no = #{no} 
+	]]>
+	</delete>
+	
+	<!-- 특정 회원의 글 -->
+	<select id="selectRecipeByMemberNo" resultType="com.dj.wte.board.vo.RecipeVo">
+	<![CDATA[
+		SELECT * FROM WTE_Recipe
+		WHERE member_no = #{memberNo}
+		ORDER BY recipe_no DESC
+	]]>	
+	</select>
+	
+	<!-- 특정 회원의 글의 개수 -->
+	<select id="countRecipeByMember" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Recipe WHERE member_no=#{memberNo}
+	]]>	
+	</select>
+	
+	<!-- 글의 개수 -->
+	<select id="countRecipe" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Recipe
+	]]>	
+	</select>
+	
+	<!-- 댓글 -->
+	<insert id="insertReply">
+	<![CDATA[
+		INSERT INTO WTE_Recipe_Reply VALUES(
+		    WTE_Recipe_Reply_seq.nextval,
+		    #{recipe_no},
+		    #{member_no},
+		    #{recipe_reply_comment},
+		    SYSDATE
+		)	
+	]]>
+	</insert>
+	
+	<!-- 글반호에 해당하는 리플 -->
+	<select id="selectReplyByRecipeNo" resultType="com.dj.wte.board.vo.RecipeReplyVo">
+	<![CDATA[
+		SELECT * FROM WTE_Recipe_Reply
+		WHERE recipe_no = #{recipe_no} 
+		ORDER BY recipe_reply_no ASC
+	]]>	
+	</select>
+	
+	<!-- 댓글 삭제 쿼리 -->
+	<delete id="deleteReplyByNo">
+	<![CDATA[
+		DELETE FROM WTE_Recipe_Reply WHERE recipe_reply_no = #{no} 
+	]]>
+	</delete>
+	
+	<!-- 글 삭제되면 댓글도 삭제  -->
+	<delete id="deleteReplyByRecipeNo">
+	<![CDATA[
+		DELETE FROM WTE_Recipe_Reply WHERE recipe_no = #{no} 
+	]]>
+	</delete>
+	
+	<!-- 내셔널 no로 name 셀렉트 -->
+	<select id="nationalNameByNo" resultType="String">
+	<![CDATA[
+		SELECT national_name FROM WTE_Recipe_National
+		WHERE national_no = #{nationalNo}
+	]]>	
+	</select>
+	
+	<!-- 종류별 no로 name 셀렉트 -->
+	<select id="kindNameByNo" resultType="String">
+	<![CDATA[
+		SELECT kind_name FROM WTE_Recipe_Kind
+		WHERE kind_no = #{kindNo}
+	]]>	
+	</select>
+	
+	<!-- 글 수정 쿼리 -->
+	<update id="updateRecipe">
+	<![CDATA[
+		UPDATE WTE_Recipe 
+		SET recipe_title = #{recipe_title}, national_no = #{national_no}, kind_no = #{kind_no}, recipe_sauce = #{recipe_sauce}, recipe_people = #{recipe_people}, recipe_time = #{recipe_time}
+		WHERE recipe_no = #{recipe_no}
+	]]>
+	</update>
+	
+	<!-- 글의 댓글 개수 -->
+	<select id="countRecipeReply" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM WTE_Recipe_Reply WHERE recipe_no = #{recipe_no}
+	]]>	
+	</select>
+	
+</mapper>

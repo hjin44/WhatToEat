@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.wte.member.mapper.MessageSQLMapper">
+
+	<!-- 쪽지 보내기 -->
+	<insert id="insertMessage">
+	<![CDATA[
+		INSERT INTO WTE_Message VALUES(
+		    WTE_Message_seq.nextval,
+		    #{sender_no},
+		    #{target_no},
+		    #{message_content},
+		    'N',
+		    SYSDATE
+		)
+	]]>
+	</insert>
+	
+	<!-- 받은 쪽지 리스트 보기 -->
+	<select id="selectByTarget" resultType="com.dj.wte.member.vo.MessageVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Message 
+		WHERE target_no = #{target_no}
+		ORDER BY message_no DESC
+	]]>
+	</select>
+	
+	<!-- 보낸 쪽지 리스트 보기 -->
+	<select id="selectBySender" resultType="com.dj.wte.member.vo.MessageVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Message 
+		WHERE sender_no = #{sender_no}
+		ORDER BY message_no DESC
+	]]>
+	</select>
+	
+	<!-- 특정 쪽기 보기 -->
+	<select id="selectByNo" resultType="com.dj.wte.member.vo.MessageVo">
+	<![CDATA[
+		SELECT * 
+		FROM WTE_Message 
+		WHERE message_no = #{message_no}
+	]]>
+	</select>
+	
+	<!-- 쪽지 확인 완료 -->
+	<update id="updateConfirm">
+	<![CDATA[
+		UPDATE WTE_Message 
+		SET open_confirm = 'Y' 
+		WHERE message_no = #{message_no}
+	]]>
+	</update>
+	
+	<!-- 쪽지 삭제 -->
+	<delete id="deleteMessage">
+	<![CDATA[
+		DELETE 
+		FROM WTE_Message 
+		WHERE message_no = #{message_no}
+	]]>
+	</delete>
+	
+	<!-- 받은 쪽지 전체 수 -->
+	<select id="getTotalMessage" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) total_message
+		FROM WTE_Message 
+		WHERE target_no = #{target_no}
+	]]>
+	</select>
+	
+	<!-- 받은 쪽지 중 안읽은 쪽지 수 -->
+	<select id="getNotReadMessage" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) 
+		FROM WTE_Message not_read_message
+		WHERE target_no = #{target_no}
+		AND open_confirm = 'N'
+	]]>
+	</select>
+	
+	<!-- 보낸 쪽지 전체 수 -->
+	<select id="sendTotalMessage" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) total_message
+		FROM WTE_Message 
+		WHERE sender_no = #{sender_no}
+	]]>
+	</select>
+	
+	<!-- 보낸 쪽지 중 안읽은 쪽지 수 -->
+	<select id="sendNotReadMessage" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) not_read_message
+		FROM WTE_Message 
+		WHERE sender_no = #{sender_no}
+		AND open_confirm = 'N'
+	]]>
+	</select>
+	
+</mapper>
